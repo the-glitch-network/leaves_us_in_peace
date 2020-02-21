@@ -1,11 +1,9 @@
 {
   "required": true,
-  "package": "net.fabricmc.example.mixin",
+  "package": "tfar.leafmealone.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-  ],
-  "client": [
-    "ExampleMixin"
+    "MixinLeavesBlock"
   ],
   "injectors": {
     "defaultRequire": 1

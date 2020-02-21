@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "leafmealone",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Leaf Me Alone",
+  "description": "Makes leaves decay when not attached to their own log",
   "authors": [
     "Tfarecnim"
   ],
@@ -14,22 +14,18 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "tfar.example.ExampleMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "leafmealone.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.7.2",
-    "fabric": "*",
-    "minecraft": "1.15.x"
+    "fabricloader": ">=0.7.2"
   },
   "suggests": {
     "flamingo": "*"
