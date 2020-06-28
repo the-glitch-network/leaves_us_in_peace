@@ -1,23 +1,29 @@
 package tfar.leafmealone.mixin;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.GrassBlock;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tfar.leafmealone.MixinHooks;
 
-import static net.minecraft.block.LeavesBlock.DISTANCE;
+import java.util.Random;
 
 @Mixin(LeavesBlock.class)
-public abstract class MixinLeavesBlock {
+abstract class MixinLeavesBlock {
 
-	@Inject(method = "updateDistanceFromLogs",at = @At("RETURN"),cancellable = true)
-	private static void exactMatch(BlockState state, IWorld worldIn, BlockPos pos, CallbackInfoReturnable<BlockState> cir){
-		if (cir.getReturnValue().get(DISTANCE) == 7)return;
-		cir.setReturnValue(MixinHooks.handleDecay(state,worldIn,pos));
+	@Inject(method = "scheduledTick",at = @At(value = "HEAD"))
+	private void captureBlock(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci){
+		MixinHooks.block = (Block)(Object)this;
+	}
+
+	@ModifyConstant(method = "getDistanceFromLog",constant = @Constant(classValue = LeavesBlock.class))
+	private static Class<?> strictCheck(Object block,Class<?> clazz) {
+		return block == MixinHooks.block ? LeavesBlock.class : GrassBlock.class;
 	}
 }
