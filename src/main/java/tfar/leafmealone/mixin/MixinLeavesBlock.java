@@ -2,13 +2,14 @@ package tfar.leafmealone.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.GrassBlock;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tfar.leafmealone.MixinHooks;
 
@@ -23,7 +24,7 @@ abstract class MixinLeavesBlock {
 	}
 
 	@ModifyConstant(method = "getDistanceFromLog",constant = @Constant(classValue = LeavesBlock.class))
-	private static Class<?> strictCheck(Object block,Class<?> clazz) {
-		return block == MixinHooks.block ? LeavesBlock.class : GrassBlock.class;
+	private static boolean strictCheck(Object block,Class<?> clazz) {
+		return block == MixinHooks.block;
 	}
 }
