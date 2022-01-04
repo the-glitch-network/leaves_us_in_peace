@@ -1,16 +1,11 @@
-# Fabric Example Mod
 
-## Setup
 
-1. Edit build.gradle and mod.json to suit your needs.
-    * The "mixins" object can be removed from mod.json if you do not need to use mixins.
-    * Please replace all occurences of "modid" with your own mod ID - sometimes, a different string may also suffice.
-2. Run the following command:
+In vanilla, leaves will not decay as long as they're attached to either a logblock or any instance of leavesblock, this mod changes it so that leaves will decay if they are attached to a leaf or log that does not match the tree they came from.
 
-```
-./gradlew idea
-```
+Can run serverside only but still works in singleplayer.
 
-## License
+Requires Fabric loader
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+![demonstration](https://cdn.discordapp.com/attachments/232644586638540811/680508455970144256/2020-02-21_15-17-52.gif)
+
+discord and stuff : https://discord.gg/vZxnfa4
