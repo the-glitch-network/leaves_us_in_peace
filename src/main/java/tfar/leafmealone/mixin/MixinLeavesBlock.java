@@ -4,20 +4,19 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldAccess;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Group;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import tfar.leafmealone.MixinHooks;
 
 import java.util.Random;
 
-import static tfar.leafmealone.MixinHooks.getLeavesTag;
-import static tfar.leafmealone.MixinHooks.getOrSetLeavesTag;
+import static tfar.leafmealone.MixinHooks.*;
 
 @Mixin(LeavesBlock.class)
 abstract class MixinLeavesBlock extends Block {
@@ -28,8 +27,28 @@ abstract class MixinLeavesBlock extends Block {
 
 	@Inject(method = "scheduledTick",at = @At(value = "HEAD"))
 	private void captureBlock(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci){
-		getOrSetLeavesTag(world, this);
+		updateLeavesTags(world, this);
 		MixinHooks.block = this;
+	}
+
+	@ModifyArgs(method = "updateDistanceFromLogs", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/LeavesBlock;getDistanceFromLog(Lnet/minecraft/block/BlockState;)I"))
+	private static void checkBlockState(Args args, BlockState leavesState, WorldAccess world, BlockPos pos) {
+		updateLogLeavesTags((ServerWorld) world, ((BlockState) args.get(0)).getBlock());
+	}
+
+	// if a log_leaves tag is found, forces vanilla `contains` call to match
+	@Redirect(
+			method = "getDistanceFromLog",
+			at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/tag/Tag$Identified;contains(Ljava/lang/Object;)Z"),
+			slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/tag/BlockTags;LOGS:Lnet/minecraft/tag/Tag$Identified;"))
+	)
+	private static boolean tryMatchLog(Tag.Identified<?> instance, Object o) {
+		final Block block = (Block)o;
+		Tag<Block> logLeavesTag = getLogLeavesTag(block);
+		if (logLeavesTag != null)
+			return logLeavesTag.contains(MixinHooks.block);
+
+		else return BlockTags.LOGS.contains(block);
 	}
 
 	@Group(name = "LeavesBlockInstanceofRedirects")
@@ -49,4 +68,5 @@ abstract class MixinLeavesBlock extends Block {
 		return leavesTag != null && leavesTag.contains((Block)stateBlock) ||
 				stateBlock == MixinHooks.block;
 	}
+
 }
