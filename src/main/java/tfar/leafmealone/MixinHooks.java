@@ -48,9 +48,10 @@ public class MixinHooks {
 	}
 
 	private static Identifier leavesIdTransformer(Identifier id) {
-		String idString = id.toString();
-		if (!idString.endsWith("s")) idString += "s";
-		return new Identifier(idString);
+//		String idString = id.toString();
+//		if (!idString.endsWith("s")) idString += "s";
+//		return new Identifier(idString);
+		return id;
 	}
 
 	private static Identifier logIdTransformer(Identifier id) {
