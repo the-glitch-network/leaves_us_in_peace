@@ -31,4 +31,7 @@ public class MixinHooks {
 		return LEAVES_TAGS.get(leavesBlock);
 	}
 
+	public static void onReload() {
+		LEAVES_TAGS.clear();
+	}
 }

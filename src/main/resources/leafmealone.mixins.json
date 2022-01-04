@@ -3,6 +3,7 @@
   "package": "tfar.leafmealone.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MinecraftServerMixin",
     "MixinLeavesBlock"
   ],
   "injectors": {
