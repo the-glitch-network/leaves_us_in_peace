@@ -102,24 +102,26 @@ abstract class LeavesBlockMixin extends Block {
 		return state.getBlock() instanceof LeavesBlock;
 	}
 
-	@ModifyArgs(method = "scheduledTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"))
-	private void postScheduledTick(Args args, BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		// ignore persistent leaves
-		if (state.get(PERSISTENT)) return;
-		final int leavesDecayDelay = getLeavesDecayDelay();
-		if (leavesDecayDelay >= 0) {
-			BlockState newState = args.get(1);
-			if (newState.get(DISTANCE) >= 7) {
-//				LeavesBlock.dropStacks(state, world, pos);
-				world.removeBlock(pos, false);
-//				randomTick(state, world, pos, random);
+//	@ModifyArgs(method = "scheduledTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"))
+//	private void postScheduledTick(Args args, BlockState state, ServerWorld world, BlockPos pos, Random random) {
+	@Inject(method = "scheduledTick", at = @At("TAIL"))
+	private void postScheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+		if (!state.get(PERSISTENT) && shouldAccelerateLeavesDecay()) {
+			if (state.get(DISTANCE) >= 7) {
+				randomTick(state, world, pos, random);
 				if (shouldUpdateDiagonalLeaves()) {
 					Tag<Block> leavesTag = LeafySolutions.getLeavesTag(this);
-					getDiagonalPositions(pos).forEach(blockPos -> updateIfMatchingLeaves(world, blockPos, leavesTag, leavesDecayDelay));
+					getDiagonalPositions(pos).forEach(blockPos -> updateIfMatchingLeaves(world, blockPos, leavesTag, random));
 				}
+			} else if (world.getBlockState(pos).get(DISTANCE) >= 7) {
+				world.createAndScheduleBlockTick(pos, this, getDecayDelay(random));
 			}
-
 		}
+	}
+
+	@Inject(method = "randomTick", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/server/world/ServerWorld;removeBlock(Lnet/minecraft/util/math/BlockPos;Z)Z"))
+	private void postRemoveBlock(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
+		if (shouldDoDecayingLeavesEffects()) this.spawnBreakParticles(world, null, pos, state);
 	}
 
 	private static Collection<BlockPos> getDiagonalPositions(BlockPos pos) {
@@ -137,10 +139,10 @@ abstract class LeavesBlockMixin extends Block {
 		return diagonalPositions;
 	}
 
-	private static void updateIfMatchingLeaves(WorldAccess world, BlockPos blockPos, Tag<Block> leavesTag, int delay) {
+	private static void updateIfMatchingLeaves(WorldAccess world, BlockPos blockPos, Tag<Block> leavesTag, Random random) {
 		final Block block = world.getBlockState(blockPos).getBlock();
 		if (isMatchingLeaves(leavesTag, block))
-			world.createAndScheduleBlockTick(blockPos, block, delay);
+			world.createAndScheduleBlockTick(blockPos, block, getDecayDelay(random));
 	}
 
 	private static boolean isMatchingLeaves(Tag<Block> leavesTag, Block block) {
