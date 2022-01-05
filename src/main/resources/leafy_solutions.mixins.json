@@ -3,7 +3,7 @@
   "package": "net.sssubtlety.leafy_solutions.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "MixinLeavesBlock"
+    "LeavesBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
