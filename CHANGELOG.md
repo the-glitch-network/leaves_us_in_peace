@@ -1,0 +1,1 @@
+- 2.1 (4 Jan. 2022): Diverged from LeafMeAlone, now called Leafy Solutions.

@@ -1,35 +1,35 @@
 {
   "schemaVersion": 1,
-  "id": "leafmealone",
-  "version": "${version}",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
 
-  "name": "Leaf Me Alone",
-  "description": "Makes leaves decay when not attached to their own log",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "Tfarecnim"
+    "Tfarecnim",
+    "${author}"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://modrinth.com/mod/${archives_base_name}",
+    "sources": "https://gitlab.com/${author}/${mod_id}"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/leafmealone/icon.png",
+  "license": "https://github.com/supersaiyansubtlety/LeafMeAlone/blob/master/LICENSE",
+  "icon": "assets/${mod_id}/${mod_id}_icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
+      "${maven_group}.${mod_id}.${ModId}\$Init"
     ]
   },
   "mixins": [
-    "leafmealone.mixins.json"
+    "${mod_id}.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.7.2",
-    "minecraft": ">=1.16"
-  },
-  "suggests": {
-    "flamingo": "*"
+    "fabricloader": ">=${min_loader_version}",
+    "fabric": ">=${min_fabric_api_version}",
+    "minecraft": ">=${min_minecraft_version} <=${minecraft_version}"
   }
 }

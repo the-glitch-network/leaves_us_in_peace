@@ -1,9 +1,8 @@
 {
   "required": true,
-  "package": "tfar.leafmealone.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "package": "net.sssubtlety.leafy_solutions.mixin",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "MinecraftServerMixin",
     "MixinLeavesBlock"
   ],
   "injectors": {
