@@ -87,7 +87,7 @@ abstract class LeavesBlockMixin extends Block {
 	}
 
 	private static boolean strictLeavesCheckImpl(BlockState state) {
-		if (shouldIgnorePersistentLaves()) {
+		if (shouldIgnorePersistentLeaves()) {
 			final Optional<Boolean> optPersistent = state.getOrEmpty(PERSISTENT);
 			if (optPersistent.isPresent() && optPersistent.get()) return false;
 		}
