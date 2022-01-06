@@ -3,45 +3,47 @@ package net.sssubtlety.leafy_solutions;
 import java.util.Random;
 
 public final class FeatureControl {
-    private static boolean matchLeavesTypes = true;
-    private static boolean matchLogsToLeaves = true;
-    private static boolean ignorePersistentLaves = true;
-    private static boolean accelerateLeavesDecay = true;
-    private static int minDecayDelay = 10;
-    private static int maxDecayDelay = 100;
-    private static boolean updateDiagonalLeaves = true;
-    private static boolean doDecayingLeavesEffects = false;
+    public static class Defaults {
+        public static final boolean matchLeavesTypes = true;
+        public static final boolean matchLogsToLeaves = true;
+        public static final boolean ignorePersistentLaves = true;
+        public static final boolean accelerateLeavesDecay = true;
+        public static final int minDecayDelay = 10;
+        public static final int maxDecayDelay = 100;
+        public static final boolean updateDiagonalLeaves = true;
+        public static final boolean doDecayingLeavesEffects = false;
+
+        private Defaults() { }
+    }
 
     public static boolean shouldMatchLeavesTypes() {
-        return matchLeavesTypes;
+        return Defaults.matchLeavesTypes;
     }
 
     public static boolean shouldMatchLogsToLeaves() {
-        return matchLogsToLeaves;
+        return Defaults.matchLogsToLeaves;
     }
 
     public static boolean shouldIgnorePersistentLaves() {
-        return ignorePersistentLaves;
+        return Defaults.ignorePersistentLaves;
     }
 
     public static boolean shouldAccelerateLeavesDecay() {
-        return accelerateLeavesDecay;
+        return Defaults.accelerateLeavesDecay;
     }
 
     public static int getDecayDelay(Random random) {
-        return minDecayDelay < maxDecayDelay ?
-             random.nextInt(minDecayDelay, maxDecayDelay) : maxDecayDelay;
+        return Defaults.minDecayDelay < Defaults.maxDecayDelay ?
+             random.nextInt(Defaults.minDecayDelay, Defaults.maxDecayDelay) : Defaults.maxDecayDelay;
     }
 
     public static boolean shouldUpdateDiagonalLeaves() {
-        return updateDiagonalLeaves;
+        return Defaults.updateDiagonalLeaves;
     }
 
     public static boolean shouldDoDecayingLeavesEffects() {
-        return doDecayingLeavesEffects;
+        return Defaults.doDecayingLeavesEffects;
     }
 
-    private FeatureControl() throws InstantiationException {
-        throw new InstantiationException("FeatureControl is uninstantiable!");
-    }
+    private FeatureControl() { }
 }

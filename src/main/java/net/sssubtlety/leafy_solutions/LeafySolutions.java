@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.function.UnaryOperator;
 
 public class LeafySolutions {
+	public static final String NAMESPACE = "leafy_solutions";
+
 	private static final String LOG_LEAVES_TAG_DIRECTORY = "log_leaves/";
 
 	private static final Map<Block, Tag<Block>> LEAVES_TAGS = new HashMap<>();

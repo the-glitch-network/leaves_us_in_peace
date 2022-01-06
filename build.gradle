@@ -104,7 +104,7 @@ dependencies {
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}")
 
 	//Config library
-	requiredApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}")
+	optionalApi(true, "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}")
 	// Config menu support
 	optionalMod(true, "com.terraformersmc:modmenu:${project.modmenu_version}")
 	// translation fetching

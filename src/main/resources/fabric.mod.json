@@ -21,6 +21,9 @@
   "entrypoints": {
     "main": [
       "${maven_group}.${mod_id}.${ModId}\$Init"
+    ],
+    "modmenu": [
+      "${maven_group}.${mod_id}.ModMenuIntegration"
     ]
   },
   "mixins": [
