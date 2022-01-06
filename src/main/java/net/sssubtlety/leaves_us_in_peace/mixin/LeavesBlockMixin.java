@@ -68,8 +68,7 @@ abstract class LeavesBlockMixin extends Block {
 		final Block block = state.getBlock();
 		if (recentLeaves != null && shouldMatchLogsToLeaves()) {
 			Tag<Block> logLeavesTag = LeavesUsInPeace.getLogLeavesTag(block);
-			if (logLeavesTag != null)
-				return logLeavesTag.contains(recentLeaves);
+			if (logLeavesTag != null) return logLeavesTag.contains(recentLeaves);
 		}
 
 		return BlockTags.LOGS.contains(block);
