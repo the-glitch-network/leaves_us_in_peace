@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 import net.sssubtlety.leaves_us_in_peace.LeavesUsInPeace;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -74,15 +75,9 @@ abstract class LeavesBlockMixin extends Block {
 		return BlockTags.LOGS.contains(block);
 	}
 
-	@Group(name = "LeavesBlockInstanceofRedirects")
-	@Redirect(method = "getDistanceFromLog", at = @At(value = "CONSTANT", args = "classValue=net/minecraft/block/LeavesBlock"))
-	private static boolean strictLeavesCheckDev(Object stateBlock, Class<?> leavesBlockClass, BlockState state) {
-		return strictLeavesCheckImpl(state);
-	}
-
-	@Group(name = "LeavesBlockInstanceofRedirects")
-	@Redirect(method = "getDistanceFromLog", at = @At(value = "CONSTANT", args = "classValue=net/minecraft/block/net/minecraft/class_2397"))
-	private static boolean strictLeavesCheckProd(Object stateBlock, Class<?> leavesBlockClass, BlockState state) {
+	@ModifyConstant(method = "getDistanceFromLog", constant = @Constant(classValue = LeavesBlock.class))
+	@Dynamic //MCDev doesn't know an `obj instanceof Clazz` redirect can return a boolean
+	private static boolean strictLeavesCheckProd(Object block, Class<?> leavesBlockClass, BlockState state) {
 		return strictLeavesCheckImpl(state);
 	}
 
