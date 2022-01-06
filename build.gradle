@@ -157,7 +157,7 @@ def optionalMod(boolean enabled, String dep) {
 
 def optionalApi(boolean enabled, String dep) {
 	if (enabled) devRuntime(dep)
-	dependencies.compileOnlyApi (dep) {
+	dependencies.modCompileOnlyApi (dep) {
 		exclude group: "net.fabricmc.fabric-api"
 		exclude module: "nbt-crafting"
 	}
