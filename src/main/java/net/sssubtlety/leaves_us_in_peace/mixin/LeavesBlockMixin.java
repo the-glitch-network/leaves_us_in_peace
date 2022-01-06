@@ -1,4 +1,4 @@
-package net.sssubtlety.leafy_solutions.mixin;
+package net.sssubtlety.leaves_us_in_peace.mixin;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,7 +11,7 @@ import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
-import net.sssubtlety.leafy_solutions.LeafySolutions;
+import net.sssubtlety.leaves_us_in_peace.LeavesUsInPeace;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Random;
 
-import static net.sssubtlety.leafy_solutions.FeatureControl.*;
+import static net.sssubtlety.leaves_us_in_peace.FeatureControl.*;
 
 @Mixin(LeavesBlock.class)
 abstract class LeavesBlockMixin extends Block {
@@ -48,13 +48,13 @@ abstract class LeavesBlockMixin extends Block {
 
 	@Inject(method = "scheduledTick",at = @At(value = "HEAD"))
 	private void captureBlock(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci){
-		if (shouldMatchLeavesTypes()) LeafySolutions.updateLeavesTags(this);
+		if (shouldMatchLeavesTypes()) LeavesUsInPeace.updateLeavesTags(this);
 		recentLeaves = this;
 	}
 
 	@ModifyArgs(method = "updateDistanceFromLogs", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/LeavesBlock;getDistanceFromLog(Lnet/minecraft/block/BlockState;)I"))
 	private static void checkBlockState(Args args, BlockState leavesState, WorldAccess world, BlockPos pos) {
-		if (shouldMatchLogsToLeaves()) LeafySolutions.updateLogLeavesTags(((BlockState) args.get(0)).getBlock());
+		if (shouldMatchLogsToLeaves()) LeavesUsInPeace.updateLogLeavesTags(((BlockState) args.get(0)).getBlock());
 	}
 
 	// If a log_leaves tag is found, match it. Otherwise, just match all logs like vanilla
@@ -66,7 +66,7 @@ abstract class LeavesBlockMixin extends Block {
 	private static boolean tryMatchLog(BlockState state, Tag<Block> tag) {
 		final Block block = state.getBlock();
 		if (recentLeaves != null && shouldMatchLogsToLeaves()) {
-			Tag<Block> logLeavesTag = LeafySolutions.getLogLeavesTag(block);
+			Tag<Block> logLeavesTag = LeavesUsInPeace.getLogLeavesTag(block);
 			if (logLeavesTag != null)
 				return logLeavesTag.contains(recentLeaves);
 		}
@@ -94,7 +94,7 @@ abstract class LeavesBlockMixin extends Block {
 
 		if (recentLeaves != null && shouldMatchLeavesTypes()) {
 			if (state.getOrEmpty(DISTANCE).isEmpty()) return false;
-			Tag<Block> leavesTag = LeafySolutions.getLeavesTag(recentLeaves);
+			Tag<Block> leavesTag = LeavesUsInPeace.getLeavesTag(recentLeaves);
 			Block stateBlock = state.getBlock();
 			return isMatchingLeaves(leavesTag, stateBlock);
 		}
@@ -110,7 +110,7 @@ abstract class LeavesBlockMixin extends Block {
 			if (state.get(DISTANCE) >= 7) {
 				randomTick(state, world, pos, random);
 				if (shouldUpdateDiagonalLeaves()) {
-					Tag<Block> leavesTag = LeafySolutions.getLeavesTag(this);
+					Tag<Block> leavesTag = LeavesUsInPeace.getLeavesTag(this);
 					getDiagonalPositions(pos).forEach(blockPos -> updateIfMatchingLeaves(world, blockPos, leavesTag, random));
 				}
 			} else if (world.getBlockState(pos).get(DISTANCE) >= 7) {

@@ -1,1 +1,1 @@
-- 2.1 (4 Jan. 2022): Diverged from LeafMeAlone, now called Leafy Solutions.
+- 1.0 (6 Jan. 2022): Rebranded to Leaves Us In Peace.

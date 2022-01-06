@@ -1,10 +1,10 @@
-package net.sssubtlety.leafy_solutions;
+package net.sssubtlety.leaves_us_in_peace;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 
-import static net.sssubtlety.leafy_solutions.LeafySolutions.NAMESPACE;
+import static net.sssubtlety.leaves_us_in_peace.LeavesUsInPeace.NAMESPACE;
 
 @me.shedaniel.autoconfig.annotation.Config(name = NAMESPACE)
 public class Config implements ConfigData {

@@ -1,4 +1,4 @@
-package net.sssubtlety.leafy_solutions;
+package net.sssubtlety.leaves_us_in_peace;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -12,20 +12,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
-public class LeafySolutions {
-	public static final String NAMESPACE = "leafy_solutions";
+public class LeavesUsInPeace {
+	public static final String NAMESPACE = "leaves_us_in_peace";
 
-	private static final String LOG_LEAVES_TAG_DIRECTORY = "log_leaves/";
+	private static final String TREES_PATH = "trees/";
 
 	private static final Map<Block, Tag<Block>> LEAVES_TAGS = new HashMap<>();
-	private static final Map<Block, Tag<Block>> LOG_LEAVES_TAGS = new HashMap<>();
+	private static final Map<Block, Tag<Block>> TREES_TAGS = new HashMap<>();
 
 	public static void updateLeavesTags(Block leavesBlock) {
-		updateBlockTag(leavesBlock, LEAVES_TAGS, LeafySolutions::leavesIdTransformer);
+		updateBlockTag(leavesBlock, LEAVES_TAGS, LeavesUsInPeace::leavesIdTransformer);
 	}
 
 	public static void updateLogLeavesTags(Block block) {
-		updateBlockTag(block, LOG_LEAVES_TAGS, LeafySolutions::logIdTransformer);
+		updateBlockTag(block, TREES_TAGS, LeavesUsInPeace::logIdTransformer);
 	}
 
 	public static Tag<Block> getLeavesTag(Block leavesBlock) {
@@ -33,11 +33,12 @@ public class LeafySolutions {
 	}
 
 	public static Tag<Block> getLogLeavesTag(Block logBlock) {
-		return LOG_LEAVES_TAGS.get(logBlock);
+		return TREES_TAGS.get(logBlock);
 	}
 
 	public static void onReload() {
 		LEAVES_TAGS.clear();
+		TREES_TAGS.clear();
 	}
 
 	private static void updateBlockTag(Block block, Map<Block, Tag<Block>> tagMap,
@@ -53,7 +54,7 @@ public class LeafySolutions {
 	}
 
 	private static Identifier logIdTransformer(Identifier id) {
-		return new Identifier(id.getNamespace(), LOG_LEAVES_TAG_DIRECTORY + id.getPath());
+		return new Identifier(id.getNamespace(), TREES_PATH + id.getPath());
 	}
 
 	public static class Init implements ModInitializer {

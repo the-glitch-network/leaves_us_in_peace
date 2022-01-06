@@ -1,4 +1,4 @@
-package net.sssubtlety.leafy_solutions;
+package net.sssubtlety.leaves_us_in_peace;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

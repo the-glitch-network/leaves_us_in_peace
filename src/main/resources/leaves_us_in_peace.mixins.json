@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "net.sssubtlety.leafy_solutions.mixin",
+  "package": "net.sssubtlety.leaves_us_in_peace.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "LeavesBlockMixin"
