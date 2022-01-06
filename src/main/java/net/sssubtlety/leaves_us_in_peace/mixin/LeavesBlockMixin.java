@@ -58,7 +58,7 @@ abstract class LeavesBlockMixin extends Block {
 		if (shouldMatchLogsToLeaves()) LeavesUsInPeace.updateLogLeavesTags(((BlockState) args.get(0)).getBlock());
 	}
 
-	// If a log_leaves tag is found, match it. Otherwise, just match all logs like vanilla
+	// If a log_leaves tag is found, match it. Otherwise, match all logs like vanilla
 	@Redirect(
 			method = "getDistanceFromLog",
 			at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/tag/Tag;)Z"),
@@ -96,8 +96,6 @@ abstract class LeavesBlockMixin extends Block {
 		return state.getBlock() instanceof LeavesBlock;
 	}
 
-//	@ModifyArgs(method = "scheduledTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"))
-//	private void postScheduledTick(Args args, BlockState state, ServerWorld world, BlockPos pos, Random random) {
 	@Inject(method = "scheduledTick", at = @At("TAIL"))
 	private void postScheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
 		if (!state.get(PERSISTENT) && shouldAccelerateLeavesDecay()) {
