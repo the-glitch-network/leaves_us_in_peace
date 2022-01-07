@@ -34,5 +34,9 @@
     "fabricloader": ">=${min_loader_version}",
     "fabric": ">=${min_fabric_api_version}",
     "minecraft": ">=${min_minecraft_version} <=${minecraft_version}"
+  },
+  "recommends": {
+    "modmenu": ">=${min_modmenu_version}",
+    "cloth-config": ">=${min_cloth_config_version}"
   }
 }

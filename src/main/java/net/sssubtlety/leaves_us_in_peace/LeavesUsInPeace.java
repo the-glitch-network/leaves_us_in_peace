@@ -3,6 +3,7 @@ package net.sssubtlety.leaves_us_in_peace;
 import de.guntram.mcmod.crowdintranslate.CrowdinTranslate;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.Block;
 import net.minecraft.tag.ServerTagManagerHolder;
 import net.minecraft.tag.Tag;
@@ -19,6 +20,9 @@ public class LeavesUsInPeace {
 
 	private static final String TREE_TYPES_PATH = "tree_types/";
 	private static final String LEAVES_GROUPS_PATH = "leaves_groups/";
+	private static final String LOGS_WITHOUT_LEAVES_PATH = "logs_without_leaves";
+
+	public static final Tag<Block> LOGS_WITHOUT_LEAVES = TagFactory.BLOCK.create(new Identifier(NAMESPACE, LOGS_WITHOUT_LEAVES_PATH));
 
 	private static final Map<Block, Tag<Block>> LEAVES_TAGS = new HashMap<>();
 	private static final Map<Block, Tag<Block>> TREES_TAGS = new HashMap<>();
@@ -35,7 +39,7 @@ public class LeavesUsInPeace {
 		return LEAVES_TAGS.get(leavesBlock);
 	}
 
-	public static Tag<Block> getLogLeavesTag(Block block) {
+	public static Tag<Block> getLeavesForLog(Block block) {
 		return TREES_TAGS.get(block);
 	}
 

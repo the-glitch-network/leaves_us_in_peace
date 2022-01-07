@@ -2,13 +2,13 @@
   "text.autoconfig.leaves_us_in_peace.title": "Leaves Us In Peace Configuration",
 
   "text.autoconfig.leaves_us_in_peace.option.matchLeavesTypes": "Match leaves types",
-  "text.autoconfig.leaves_us_in_peace.option.matchLeavesTypes.@Tooltip": "Leaves ignore leaves of other types when\ndetermining whether or not to decay",
+  "text.autoconfig.leaves_us_in_peace.option.matchLeavesTypes.@Tooltip": "Leaves ignore leaves of other types when\ndetermining whether to decay or not",
 
   "text.autoconfig.leaves_us_in_peace.option.matchLogsToLeaves": "Match logs to leaves",
-  "text.autoconfig.leaves_us_in_peace.option.matchLogsToLeaves.@Tooltip": "Leaves ignore logs of other tree types when\ndetermining whether or not to decay",
+  "text.autoconfig.leaves_us_in_peace.option.matchLogsToLeaves.@Tooltip": "Leaves ignore logs of other tree types when\ndetermining whether to decay or not",
 
   "text.autoconfig.leaves_us_in_peace.option.ignorePersistentLeaves": "Ignore persistent leaves",
-  "text.autoconfig.leaves_us_in_peace.option.ignorePersistentLeaves.@Tooltip": "Leaves ignore persistent leaves (placed by player)\nwhen determining whether or not to decay",
+  "text.autoconfig.leaves_us_in_peace.option.ignorePersistentLeaves.@Tooltip": "Leaves ignore persistent leaves (placed by player)\nwhen determining whether to decay or not",
 
   "text.autoconfig.leaves_us_in_peace.option.accelerateLeavesDecay": "Accelerate leaves decay",
   "text.autoconfig.leaves_us_in_peace.option.accelerateLeavesDecay.@Tooltip": "Make leaves decay much faster",

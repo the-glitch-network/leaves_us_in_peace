@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static net.sssubtlety.leaves_us_in_peace.FeatureControl.*;
+import static net.sssubtlety.leaves_us_in_peace.LeavesUsInPeace.LOGS_WITHOUT_LEAVES;
 
 @Mixin(LeavesBlock.class)
 abstract class LeavesBlockMixin extends Block {
@@ -66,9 +67,12 @@ abstract class LeavesBlockMixin extends Block {
 	)
 	private static boolean tryMatchLog(BlockState state, Tag<Block> tag) {
 		final Block block = state.getBlock();
-		if (recentLeaves != null && shouldMatchLogsToLeaves()) {
-			Tag<Block> logLeavesTag = LeavesUsInPeace.getLogLeavesTag(block);
-			if (logLeavesTag != null) return logLeavesTag.contains(recentLeaves);
+		if (shouldMatchLogsToLeaves()) {
+			if (LOGS_WITHOUT_LEAVES.contains(block)) return false;
+			if (recentLeaves != null) {
+				Tag<Block> logLeavesTag = LeavesUsInPeace.getLeavesForLog(block);
+				if (logLeavesTag != null) return logLeavesTag.contains(recentLeaves);
+			}
 		}
 
 		return BlockTags.LOGS.contains(block);
