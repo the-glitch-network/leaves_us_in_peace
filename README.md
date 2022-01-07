@@ -2,7 +2,7 @@
 
 This mod is for the [Fabric mod loader](https://www.fabricmc.net/) and <a href="https://www.curseforge.com/minecraft/mc-mods/leaves-us-in-peace/files"><img style="vertical-align:middle" src="https://cf.way2muchnoise.eu/versions/Minecraft_leaves-us-in-peace_all.svg" alt="Minecraft Versions"></a>
 
-<a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api/files"><img src="https://i.imgur.com/Ol1Tcf8.png" alt="Requires Fabric API" width="300"></a>
+<a href="https://modrinth.com/mod/fabric-api/versions"><img src="https://i.imgur.com/Ol1Tcf8.png" alt="Requires Fabric API" width="300"></a>
 
 Supports [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config/files) and [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files) for configuration, but neither is required.
 
@@ -40,8 +40,7 @@ It does 3 (+1) things to change how leaves decay, all configurable:
 <summary>Configuration</summary>
 
 Configuration requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config/files), 
-and configuring the mod in-game requires [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/files), 
-but neither is required.
+and configuring the mod in-game requires [Mod Menu](https://modrinth.com/mod/modmenu/versions).
 
 ##### Options:
 
