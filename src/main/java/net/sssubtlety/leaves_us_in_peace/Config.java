@@ -7,50 +7,6 @@ import static net.sssubtlety.leaves_us_in_peace.LeavesUsInPeace.NAMESPACE;
 
 @me.shedaniel.autoconfig.annotation.Config(name = NAMESPACE)
 public class Config implements ConfigData {
-//    private static final Config INSTANCE;
-//
-//    static {
-//        INSTANCE = AutoConfig.register(Config.class, GsonConfigSerializer::new).getConfig();
-//    }
-
-//    public static void init() { }
-//
-//    public static boolean shouldMatchLeavesTypes() {
-//        return INSTANCE.matchLeavesTypes;
-//    }
-//
-//    public static boolean shouldMatchLogsToLeaves() {
-//        return INSTANCE.matchLogsToLeaves;
-//    }
-//
-//    public static boolean shouldIgnorePersistentLeaves() {
-//        return INSTANCE.ignorePersistentLeaves;
-//    }
-//
-//    public static boolean shouldAccelerateLeavesDecay() {
-//        return INSTANCE.accelerateLeavesDecay;
-//    }
-//
-//    public static int getMinDecayDelay() {
-//        return INSTANCE.minDecayDelay;
-//    }
-//
-//    public static int getMaxDecayDelay() {
-//        return INSTANCE.maxDecayDelay;
-//    }
-//
-//    public static boolean shouldUpdateDiagonalLeaves() {
-//        return INSTANCE.updateDiagonalLeaves;
-//    }
-//
-//    public static boolean shouldDoDecayingLeavesEffects() {
-//        return INSTANCE.doDecayingLeavesEffects;
-//    }
-//
-//    public static boolean shouldFetchTranslationUpdates() {
-//        return INSTANCE.fetchTranslationUpdates;
-//    }
-
     @ConfigEntry.Gui.Tooltip
     public boolean matchLeavesTypes = FeatureControl.Defaults.matchLeavesTypes;
 
