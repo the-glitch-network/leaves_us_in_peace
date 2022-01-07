@@ -14,7 +14,7 @@
     "sources": "https://gitlab.com/${author}/${mod_id}"
   },
 
-  "license": "https://github.com/${author}/${mod_id}/blob/master/LICENSE",
+  "license": "https://gitlab.com/${author}/${mod_id}/-/blob/master/LICENSE",
   "icon": "assets/${mod_id}/${mod_id}_icon.png",
 
   "environment": "*",
