@@ -1,6 +1,7 @@
 package net.sssubtlety.leaves_us_in_peace;
 
 import de.guntram.mcmod.crowdintranslate.CrowdinTranslate;
+import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.tag.TagFactory;
@@ -18,8 +19,8 @@ import static net.sssubtlety.leaves_us_in_peace.FeatureControl.shouldFetchTransl
 public class LeavesUsInPeace {
 	public static final String NAMESPACE = "leaves_us_in_peace";
 
-	private static final String TREE_TYPES_PATH = "tree_types/";
-	private static final String LEAVES_GROUPS_PATH = "leaves_groups/";
+	private static final String TREE_TYPES_SUB_PATH = "tree_types/";
+	private static final String LEAVES_GROUPS_SUB_PATH = "leaves_groups/";
 	private static final String LOGS_WITHOUT_LEAVES_PATH = "logs_without_leaves";
 
 	public static final Tag<Block> LOGS_WITHOUT_LEAVES = TagFactory.BLOCK.create(new Identifier(NAMESPACE, LOGS_WITHOUT_LEAVES_PATH));
@@ -28,11 +29,11 @@ public class LeavesUsInPeace {
 	private static final Map<Block, Tag<Block>> TREES_TAGS = new HashMap<>();
 
 	public static void updateLeavesTags(Block leavesBlock) {
-		updateBlockTag(leavesBlock, LEAVES_TAGS, LEAVES_GROUPS_PATH);
+		updateBlockTag(leavesBlock, LEAVES_TAGS, LEAVES_GROUPS_SUB_PATH);
 	}
 
 	public static void updateLogLeavesTags(Block block) {
-		updateBlockTag(block, TREES_TAGS, TREE_TYPES_PATH);
+		updateBlockTag(block, TREES_TAGS, TREE_TYPES_SUB_PATH);
 	}
 
 	public static Tag<Block> getLeavesTag(Block leavesBlock) {
@@ -59,14 +60,20 @@ public class LeavesUsInPeace {
 	public static class Init implements ModInitializer {
 		static {
 			FeatureControl.init();
-
 			ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, manager, success) -> onReload());
+		}
 
+		@Override
+		public void onInitialize() { }
+	}
+
+	public static class ClientInit implements ClientModInitializer {
+		static {
 			if (shouldFetchTranslationUpdates())
 				CrowdinTranslate.downloadTranslations("leaves-us-in-peace");
 		}
 
 		@Override
-		public void onInitialize() { }
+		public void onInitializeClient() { }
 	}
 }
