@@ -1,2 +1,5 @@
+- 1.0.1 (15 Jan. 2022): 
+  - Fixed translations downloading on servers.
+  - Warnings will no longer be logged when Mod Menu and/or Cloth Config aren't present.
 - 1.0 (6 Jan. 2022): First release!
 - 0.1 (6 Jan. 2022): Rebranded to Leaves Us In Peace. Add features.
