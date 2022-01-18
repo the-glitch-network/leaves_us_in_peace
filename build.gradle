@@ -342,7 +342,8 @@ curseforge {
 			changelog = getRecentChanges(versionsToRead)
 			relations {
 				requiredDependency "fabric-api"
-				requiredDependency "cloth-config"
+				optionalDependency "cloth-config"
+				optionalDependency "modmenu"
 			}
 			mainArtifact(remapJar.archivePath) { }
 
