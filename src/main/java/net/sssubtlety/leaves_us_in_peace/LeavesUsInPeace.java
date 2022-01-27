@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.block.Block;
 import net.minecraft.tag.ServerTagManagerHolder;
 import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -27,6 +28,7 @@ public class LeavesUsInPeace {
 
 	private static final Map<Block, Tag<Block>> LEAVES_TAGS = new HashMap<>();
 	private static final Map<Block, Tag<Block>> TREES_TAGS = new HashMap<>();
+	public static final TagGroup<Block> BLOCK_TAGS = ServerTagManagerHolder.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY);
 
 	public static void updateLeavesTags(Block leavesBlock) {
 		updateBlockTag(leavesBlock, LEAVES_TAGS, LEAVES_GROUPS_SUB_PATH);
@@ -52,8 +54,7 @@ public class LeavesUsInPeace {
 	private static void updateBlockTag(Block block, Map<Block, Tag<Block>> tagMap, String subPath) {
 		if (tagMap.get(block) == null) {
 			final Identifier id = Registry.BLOCK.getId(block);
-			tagMap.put(block, ServerTagManagerHolder.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY).getTag(
-					new Identifier(id.getNamespace(), subPath + id.getPath())));
+			tagMap.put(block, BLOCK_TAGS.getTag(new Identifier(id.getNamespace(), subPath + id.getPath())));
 		}
 	}
 

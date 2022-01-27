@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
 import net.sssubtlety.leaves_us_in_peace.LeavesUsInPeace;
+import net.sssubtlety.leaves_us_in_peace.Util;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,13 +31,7 @@ import static net.sssubtlety.leaves_us_in_peace.LeavesUsInPeace.LOGS_WITHOUT_LEA
 
 @Mixin(LeavesBlock.class)
 abstract class LeavesBlockMixin extends Block {
-	private static Block recentLeaves;
-	private static final Direction[] HORIZONTAL_DIRECTIONS = {
-			Direction.NORTH,
-			Direction.SOUTH,
-			Direction.EAST,
-			Direction.WEST
-	};
+	private static BlockState currentLeavesState;
 
 	@Shadow @Final public static IntProperty DISTANCE;
 	@Shadow @Final public static BooleanProperty PERSISTENT;
@@ -51,7 +46,7 @@ abstract class LeavesBlockMixin extends Block {
 	@Inject(method = "scheduledTick",at = @At(value = "HEAD"))
 	private void captureBlock(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci){
 		if (shouldMatchLeavesTypes()) LeavesUsInPeace.updateLeavesTags(this);
-		recentLeaves = this;
+		currentLeavesState = state;
 	}
 
 	@ModifyArgs(method = "updateDistanceFromLogs", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/LeavesBlock;getDistanceFromLog(Lnet/minecraft/block/BlockState;)I"))
@@ -69,9 +64,9 @@ abstract class LeavesBlockMixin extends Block {
 		final Block block = state.getBlock();
 		if (shouldMatchLogsToLeaves()) {
 			if (LOGS_WITHOUT_LEAVES.contains(block)) return false;
-			if (recentLeaves != null) {
+			if (currentLeavesState != null) {
 				Tag<Block> logLeavesTag = LeavesUsInPeace.getLeavesForLog(block);
-				if (logLeavesTag != null) return logLeavesTag.contains(recentLeaves);
+				if (logLeavesTag != null) return logLeavesTag.contains(currentLeavesState.getBlock());
 			}
 		}
 
@@ -80,21 +75,23 @@ abstract class LeavesBlockMixin extends Block {
 
 	@ModifyConstant(method = "getDistanceFromLog", constant = @Constant(classValue = LeavesBlock.class))
 	@Dynamic //MCDev doesn't know an `obj instanceof Clazz` redirect can return a boolean
-	private static boolean strictLeavesCheckProd(Object block, Class<?> leavesBlockClass, BlockState state) {
-		return strictLeavesCheckImpl(state);
-	}
-
-	private static boolean strictLeavesCheckImpl(BlockState state) {
+	private static boolean matchLeaves(Object block, Class<?> leavesBlockClass, BlockState state) {
 		if (shouldIgnorePersistentLeaves()) {
-			final Optional<Boolean> optPersistent = state.getOrEmpty(PERSISTENT);
-			if (optPersistent.isPresent() && optPersistent.get()) return false;
+			// non-persistent only care about other non-persistent,
+			//   persistent care about BOTH non/persistent
+			if (!currentLeavesState.get(PERSISTENT)) {
+				final Optional<Boolean> optOtherPersistent = state.getOrEmpty(PERSISTENT);
+				if (optOtherPersistent.isPresent()) {
+					if (optOtherPersistent.get()) return false;
+				}
+			}
 		}
 
-		if (recentLeaves != null && shouldMatchLeavesTypes()) {
+		if (currentLeavesState != null && shouldMatchLeavesTypes()) {
 			if (state.getOrEmpty(DISTANCE).isEmpty()) return false;
-			Tag<Block> leavesTag = LeavesUsInPeace.getLeavesTag(recentLeaves);
+			Tag<Block> leavesTag = LeavesUsInPeace.getLeavesTag(currentLeavesState.getBlock());
 			Block stateBlock = state.getBlock();
-			return isMatchingLeaves(leavesTag, stateBlock);
+			return Util.isMatchingLeaves(leavesTag, stateBlock, currentLeavesState.getBlock());
 		}
 
 		return state.getBlock() instanceof LeavesBlock;
@@ -127,7 +124,7 @@ abstract class LeavesBlockMixin extends Block {
 				diagonalPositions.add(pos.offset(direction).offset(direction.rotateYClockwise()));
 			else {
 				final BlockPos vOffsetPos = pos.offset(direction);
-				for (Direction horizontal : HORIZONTAL_DIRECTIONS)
+				for (Direction horizontal : Util.HORIZONTAL_DIRECTIONS)
 					diagonalPositions.add(vOffsetPos.offset(direction).offset(horizontal.rotateYClockwise()));
 			}
 		}
@@ -137,12 +134,7 @@ abstract class LeavesBlockMixin extends Block {
 
 	private static void updateIfMatchingLeaves(WorldAccess world, BlockPos blockPos, Tag<Block> leavesTag, Random random) {
 		final Block block = world.getBlockState(blockPos).getBlock();
-		if (isMatchingLeaves(leavesTag, block))
+		if (Util.isMatchingLeaves(leavesTag, block, currentLeavesState.getBlock()))
 			world.createAndScheduleBlockTick(blockPos, block, getDecayDelay(random));
-	}
-
-	private static boolean isMatchingLeaves(Tag<Block> leavesTag, Block block) {
-		return leavesTag != null && leavesTag.contains(block) ||
-				block == recentLeaves;
 	}
 }

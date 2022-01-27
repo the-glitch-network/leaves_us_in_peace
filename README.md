@@ -1,4 +1,4 @@
-<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+<center>
 
 This mod is for the [Fabric mod loader](https://www.fabricmc.net/) and <a href="https://www.curseforge.com/minecraft/mc-mods/leaves-us-in-peace/files"><img style="vertical-align:middle" src="https://cf.way2muchnoise.eu/versions/Minecraft_leaves-us-in-peace_all.svg" alt="Minecraft Versions"></a>
 
@@ -15,7 +15,7 @@ Like this mod?
 <a href="https://github.com/supersaiyansubtlety/leaves_us_in_peace/blob/master/LICENSE"><img style="vertical-align:middle" src="https://img.shields.io/badge/license-CC0-green" alt="License CC0 1.0"></a>
 <a href="https://www.curseforge.com/minecraft/mc-mods/leaves-us-in-peace/files"><img style="vertical-align:middle" src="https://cf.way2muchnoise.eu/full_leaves-us-in-peace_downloads.svg" alt="CurseForge Downloads"></a>
 
-</div>
+</center>
 
 This mod aims to make leaf decay less frustrating.
 
