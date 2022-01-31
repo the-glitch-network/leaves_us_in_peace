@@ -79,7 +79,7 @@ abstract class LeavesBlockMixin extends Block {
 		if (shouldIgnorePersistentLeaves()) {
 			// non-persistent only care about other non-persistent,
 			//   persistent care about BOTH non/persistent
-			if (!currentLeavesState.get(PERSISTENT)) {
+			if (currentLeavesState != null && !currentLeavesState.get(PERSISTENT)) {
 				final Optional<Boolean> optOtherPersistent = state.getOrEmpty(PERSISTENT);
 				if (optOtherPersistent.isPresent()) {
 					if (optOtherPersistent.get()) return false;
