@@ -1,3 +1,4 @@
+- 1.0.3 (30 Jan. 2022): Fix crash that could occur when loading leaves that had been loaded in previous version of the mod.
 - 1.0.2 (27 Jan. 2022):
 
   - Fixed persistent leaves' distance never being calculated when 'ignorePersistentLeaves' was enabled.
