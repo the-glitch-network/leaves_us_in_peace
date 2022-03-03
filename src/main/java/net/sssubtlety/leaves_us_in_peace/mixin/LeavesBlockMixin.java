@@ -7,7 +7,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.tag.BlockTags;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.WorldAccess;
@@ -57,20 +57,20 @@ abstract class LeavesBlockMixin extends Block {
 	// If a log_leaves tag is found, match it. Otherwise, match all logs like vanilla
 	@Redirect(
 			method = "getDistanceFromLog",
-			at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/tag/Tag;)Z"),
-			slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/tag/BlockTags;LOGS:Lnet/minecraft/tag/Tag$Identified;"))
+			at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/block/BlockState;isIn(Lnet/minecraft/tag/TagKey;)Z"),
+			slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/tag/BlockTags;LOGS:Lnet/minecraft/tag/TagKey;"))
 	)
-	private static boolean tryMatchLog(BlockState state, Tag<Block> tag) {
+	private static boolean tryMatchLog(BlockState state, TagKey<Block> tagKey) {
 		final Block block = state.getBlock();
 		if (shouldMatchLogsToLeaves()) {
-			if (LOGS_WITHOUT_LEAVES.contains(block)) return false;
+			if (state.isIn(LOGS_WITHOUT_LEAVES)) return false;
 			if (currentLeavesState != null) {
-				Tag<Block> logLeavesTag = LeavesUsInPeace.getLeavesForLog(block);
-				if (logLeavesTag != null) return logLeavesTag.contains(currentLeavesState.getBlock());
+				TagKey<Block> logLeavesTag = LeavesUsInPeace.getLeavesForLog(block);
+				if (logLeavesTag != null) return currentLeavesState.isIn(logLeavesTag);
 			}
 		}
 
-		return BlockTags.LOGS.contains(block);
+		return state.isIn(BlockTags.LOGS);
 	}
 
 	@ModifyConstant(method = "getDistanceFromLog", constant = @Constant(classValue = LeavesBlock.class))
@@ -89,9 +89,8 @@ abstract class LeavesBlockMixin extends Block {
 
 		if (currentLeavesState != null && shouldMatchLeavesTypes()) {
 			if (state.getOrEmpty(DISTANCE).isEmpty()) return false;
-			Tag<Block> leavesTag = LeavesUsInPeace.getLeavesTag(currentLeavesState.getBlock());
-			Block stateBlock = state.getBlock();
-			return Util.isMatchingLeaves(leavesTag, stateBlock, currentLeavesState.getBlock());
+			TagKey<Block> leavesTag = LeavesUsInPeace.getLeavesTag(currentLeavesState.getBlock());
+			return Util.isMatchingLeaves(leavesTag, state, currentLeavesState);
 		}
 
 		return state.getBlock() instanceof LeavesBlock;
@@ -103,7 +102,7 @@ abstract class LeavesBlockMixin extends Block {
 			if (state.get(DISTANCE) >= 7) {
 				randomTick(state, world, pos, random);
 				if (shouldUpdateDiagonalLeaves()) {
-					Tag<Block> leavesTag = LeavesUsInPeace.getLeavesTag(this);
+					TagKey<Block> leavesTag = LeavesUsInPeace.getLeavesTag(this);
 					getDiagonalPositions(pos).forEach(blockPos -> updateIfMatchingLeaves(world, blockPos, leavesTag, random));
 				}
 			} else if (world.getBlockState(pos).get(DISTANCE) >= 7) {
@@ -132,9 +131,9 @@ abstract class LeavesBlockMixin extends Block {
 		return diagonalPositions;
 	}
 
-	private static void updateIfMatchingLeaves(WorldAccess world, BlockPos blockPos, Tag<Block> leavesTag, Random random) {
-		final Block block = world.getBlockState(blockPos).getBlock();
-		if (Util.isMatchingLeaves(leavesTag, block, currentLeavesState.getBlock()))
-			world.createAndScheduleBlockTick(blockPos, block, getDecayDelay(random));
+	private static void updateIfMatchingLeaves(WorldAccess world, BlockPos blockPos, TagKey<Block> leavesTag, Random random) {
+		final BlockState block = world.getBlockState(blockPos);
+		if (Util.isMatchingLeaves(leavesTag, block, currentLeavesState))
+			world.createAndScheduleBlockTick(blockPos, block.getBlock(), getDecayDelay(random));
 	}
 }

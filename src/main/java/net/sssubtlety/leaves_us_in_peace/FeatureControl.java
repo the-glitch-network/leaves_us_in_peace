@@ -86,10 +86,6 @@ public final class FeatureControl {
     public static boolean shouldDoDecayingLeavesEffects() {
         return CONFIG_INSTANCE == null ? Defaults.doDecayingLeavesEffects : CONFIG_INSTANCE.doDecayingLeavesEffects;
     }
-
-    public static boolean shouldFetchTranslationUpdates() {
-        return CONFIG_INSTANCE == null ? Defaults.fetchTranslationUpdates : CONFIG_INSTANCE.fetchTranslationUpdates;
-    }
     
     public static void init() { }
 

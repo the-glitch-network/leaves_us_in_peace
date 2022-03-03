@@ -46,7 +46,7 @@ public class ModMenuIntegration implements ModMenuApi {
 
         @SuppressWarnings("ConstantConditions")
         @Override
-        public void onClose() {
+        public void close() {
             this.client.setScreen(parent);
         }
     }

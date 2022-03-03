@@ -28,9 +28,6 @@
   "text.autoconfig.leaves_us_in_peace.option.doDecayingLeavesEffects": "Do decaying leaves effects",
   "text.autoconfig.leaves_us_in_peace.option.doDecayingLeavesEffects.@Tooltip": "Create particles and sounds when leaves decay",
 
-  "text.autoconfig.leaves_us_in_peace.option.fetchTranslationUpdates": "Download translation updates",
-  "text.autoconfig.leaves_us_in_peace.option.fetchTranslationUpdates.@Tooltip": "Download translations from Crowdin when the game launches",
-
   "text.leaves_us_in_peace.no_config_screen.title": "Leaves Us In Peace Configuration Unavailable",
   "text.leaves_us_in_peace.no_config_screen.message": "Install Cloth Config to enable configuration."
 }

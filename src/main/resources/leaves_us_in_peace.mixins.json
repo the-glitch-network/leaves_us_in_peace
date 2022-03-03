@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "net.sssubtlety.leaves_us_in_peace.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "LeavesBlockMixin"
   ],

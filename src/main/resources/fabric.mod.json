@@ -1,45 +1,39 @@
 {
   "schemaVersion": 1,
-  "id": "${mod_id}",
-  "version": "${mod_version}",
-
-  "name": "${mod_name}",
-  "description": "${mod_description}",
+  "id": "leaves_us_in_peace",
+  "version": "${version}",
+  "name": "Leaves Us In Peace",
+  "description": "Leaf decay ignores different types of leaves and logs. Also fast leaf decay. Configurable.",
   "authors": [
     "Tfarecnim",
-    "${author}"
+    "supersaiyansubtlety",
+    "KJP12"
   ],
+  "icon": "pack.png",
   "contact": {
-    "homepage": "https://modrinth.com/mod/${archives_base_name}",
-    "sources": "https://gitlab.com/${author}/${mod_id}"
+    "sources": "https://github.com/the-glitch-network/leaves_us_in_peace",
+    "discord": "https://discord.gg/EmPS9y9"
   },
-
-  "license": "https://gitlab.com/${author}/${mod_id}/-/blob/master/LICENSE",
-  "icon": "assets/${mod_id}/${mod_id}_icon.png",
+  "license": "CC0-1.0",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "${maven_group}.${mod_id}.${ModId}\$Init"
-    ],
-    "client": [
-      "${maven_group}.${mod_id}.${ModId}\$ClientInit"
+      "net.sssubtlety.leaves_us_in_peace.FeatureControl::init"
     ],
     "modmenu": [
-      "${maven_group}.${mod_id}.ModMenuIntegration"
+      "net.sssubtlety.leaves_us_in_peace.ModMenuIntegration"
     ]
   },
   "mixins": [
-    "${mod_id}.mixins.json"
+    "leaves_us_in_peace.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=${min_loader_version}",
-    "fabric": ">=${min_fabric_api_version}",
-    "minecraft": ">=${min_minecraft_version} <=${minecraft_version}"
+    "minecraft": ">=${minecraft_required}"
   },
   "suggests": {
-    "modmenu": ">=${min_modmenu_version}",
-    "cloth-config": ">=${min_cloth_config_version}"
+    "modmenu": ">=${modmenu_version}",
+    "cloth-config": ">=${cloth_config_version}"
   }
 }

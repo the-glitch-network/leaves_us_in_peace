@@ -29,9 +29,6 @@ public class Config implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean doDecayingLeavesEffects = FeatureControl.Defaults.doDecayingLeavesEffects;
 
-    @ConfigEntry.Gui.Tooltip
-    public boolean fetchTranslationUpdates = FeatureControl.Defaults.fetchTranslationUpdates;
-
     public static class DecayDelay {
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(max = 100)

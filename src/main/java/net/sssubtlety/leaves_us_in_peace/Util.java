@@ -1,7 +1,8 @@
 package net.sssubtlety.leaves_us_in_peace;
 
 import net.minecraft.block.Block;
-import net.minecraft.tag.Tag;
+import net.minecraft.block.BlockState;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.math.Direction;
 
 public final class Util {
@@ -14,9 +15,7 @@ public final class Util {
             Direction.WEST
     };
 
-    public static boolean isMatchingLeaves(Tag<Block> leavesTag, Block block, Block currentLeaves) {
-        return leavesTag != null && leavesTag.contains(block) ||
-//				block == currentLeaves;
-                block == currentLeaves;
+    public static boolean isMatchingLeaves(TagKey<Block> leavesTag, BlockState block, BlockState currentLeaves) {
+        return leavesTag != null && block.isIn(leavesTag) || block.isOf(currentLeaves.getBlock());
     }
 }
